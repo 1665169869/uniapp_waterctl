@@ -1,0 +1,8 @@
+node_modules
+.idea
+.vscode
+unpackage/dist
+dist
+unpackage/resources
+.hbuilderx
+uni_modules
