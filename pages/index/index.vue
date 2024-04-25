@@ -30,7 +30,6 @@ import {
     getBLEDevices,
     connectionBLEDevice,
     getWriteableBLEFeatures,
-    hookWriteBLEValue,
     writeBLECharacteristicValue,
 } from "@/utils/bluetoothModule";
 import {useMakePayload} from "@/utils/makePayload";
