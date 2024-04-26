@@ -53,16 +53,47 @@ export default {
 
         // computed
         let currentDevice = computed(() => store.state.currentDevice);
-
-
         const isSearchText = computed(() => {
             return isSearch.value ? "停止" : "搜索";
         })
         console.log(isSearchText.value)
         const sortDiscoveredBLEDevices = computed(() => {
-            return discoveredBLEDevices.value.sort((a, b) => b.RSSI - a.RSSI).sort(a => {
-                if (a.name.indexOf("Water") !== -1) return -1;
-            })
+            // return discoveredBLEDevices.value.sort((a, b) => b.RSSI - a.RSSI).sort(a => {
+            //     if (a.name.indexOf("Water") !== -1) return -1;
+            // })
+
+            return discoveredBLEDevices.value
+                .sort((a, b) => b.RSSI - a.RSSI)
+                .sort((a, b) => {
+                // 检查name是否以"Water"开头
+                const startsWithWaterA = a.name.startsWith("Water");
+                const startsWithWaterB = b.name.startsWith("Water");
+
+
+                if (!startsWithWaterA && !startsWithWaterB) {
+                    // 如果两者都未以"Water"开头，则保持原顺序
+                    return 0
+                } else if (startsWithWaterA && !startsWithWaterB) {
+                    // 如果两者中至少有一个是以"Water"开头，则将其移动到数组的前面
+                    return -1;
+                } else if (!startsWithWaterA && startsWithWaterB) {
+                    return 1;
+                }
+
+                // 如果两者都是以"Water"开头，则按照RSSI排序
+                if (startsWithWaterA && startsWithWaterB) {
+                    if (a.RSSI === b.RSSI) {
+                        return 0;
+                    }
+
+                    if (a.RSSI > b.RSSI) {
+                        return 1;
+                    }
+
+                    return b.RSSI - a.RSSI; // RSSI值越低，排序时越靠前
+                }
+
+            });
         });
 
         const isCloseConnection = computed(() => {

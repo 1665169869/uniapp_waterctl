@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    const arr = [
+        {
+            name: "Water_1",
+            RSSI: -50
+        }, {
+            name: "Water_2",
+            RSSI: -49
+        }, {
+            name: "Water_3",
+            RSSI: -98
+        }, {
+            name: "Water_4",
+            RSSI: -40
+        }, {
+            name: "",
+            RSSI: -50
+        }, {
+            name: "",
+            RSSI: -24
+        }, {
+            name: "",
+            RSSI: -98
+        },
+    ];
+
+    arr.sort((a, b) => b.RSSI - a.RSSI).sort((a, b) => {
+        // 检查name是否以"Water"开头
+        const startsWithWaterA = a.name.startsWith("Water");
+        const startsWithWaterB = b.name.startsWith("Water");
+
+
+        if (!startsWithWaterA && !startsWithWaterB) {
+            // 如果两者都未以"Water"开头，则保持原顺序
+            return 0
+        } else if (startsWithWaterA && !startsWithWaterB) {
+            // 如果两者中至少有一个是以"Water"开头，则将其移动到数组的前面
+            return -1;
+        } else if (!startsWithWaterA && startsWithWaterB) {
+            return 1;
+        }
+
+        // 如果两者都是以"Water"开头，则按照RSSI排序
+        if (startsWithWaterA && startsWithWaterB) {
+            if (a.RSSI === b.RSSI) {
+                return 0;
+            }
+
+            if (a.RSSI > b.RSSI) {
+                return 1;
+            }
+
+            return b.RSSI - a.RSSI; // RSSI值越低，排序时越靠前
+        }
+
+    });
+
+    console.log(arr);
+</script>
+</body>
+</html>
